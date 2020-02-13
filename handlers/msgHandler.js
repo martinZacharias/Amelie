@@ -28,16 +28,20 @@ class msgHandler {
 			.split(" ")
 			.filter(arg => arg); // remove empty args
 
-		const cmd = args.shift();
+		let cmd = args.shift();
+		if (!this.commands.hasOwnProperty(cmd)) return;
+		cmd = this.commands[cmd];
+		msg.channel.startTyping();
 
 		try {
-			if (this.commands.hasOwnProperty(cmd)) {
-				await this.commands[cmd].run(msg, args);
-			}
+			cmd.checkFlags(msg);
+			await cmd.run(msg, args);
 		} catch (error) {
 			msg.react("❌");
 			if (!error.show) throw error;
 			await showError(msg, error);
+		} finally {
+			msg.channel.stopTyping();
 		}
 	}
 }
