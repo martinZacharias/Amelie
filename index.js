@@ -14,3 +14,10 @@ client.on("ready", () => {
 });
 
 client.login(config.token);
+
+// disconnect bot before exiting on SIGINT
+process.on("SIGINT", () => {
+	console.log("Terminated");
+	client.destroy();
+	process.exit(0);
+});
