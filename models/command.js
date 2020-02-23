@@ -6,7 +6,7 @@ const CustomError = require("./customError.js");
  * @class Command
  */
 class Command {
-	constructor(options) {
+	constructor(options = {}) {
 		this.options = {
 			ownerOnly: options.ownerOnly || false,
 			nsfw: options.nsfw || false

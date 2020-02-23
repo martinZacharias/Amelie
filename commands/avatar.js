@@ -2,9 +2,6 @@ const Command = require("../models/command.js");
 const Discord = require("discord.js");
 
 class Avatar extends Command {
-	constructor() {
-		super({});
-	}
 	/**
 	 * @param {Discord.Message} msg
 	 * @param {Array<String>} args
