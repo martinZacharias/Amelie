@@ -9,6 +9,7 @@ const handler = new msgHandler(client);
 client.on("message", msg => handler.handle(msg));
 client.on("ready", () => {
 	console.log(`Ready ${new Date(client.readyTimestamp).toLocaleTimeString()}`);
+	if (process.argv.includes("--idle")) client.user.setStatus("idle");
 	//add @mention to prefixes
 	config.prefix.unshift(`<@!${client.user.id}>`);
 });

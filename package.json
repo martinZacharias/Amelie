@@ -1,27 +1,30 @@
 {
-  "name": "amelie",
-  "version": "1.0.0",
-  "description": "A discord.js bot",
-  "main": "index.js",
-  "scripts": {
-    "test": "nodemon --inspect ./index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/martinza99/Amelie.git"
-  },
-  "keywords": [
-    "discord",
-    "bot"
-  ],
-  "author": "martinza99",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/martinza99/Amelie/issues"
-  },
-  "homepage": "https://github.com/martinza99/Amelie#readme",
-  "dependencies": {
-    "discord.js": "github:discordjs/discord.js",
-    "eslint": "^6.8.0"
-  }
+	"name": "amelie",
+	"version": "1.0.0",
+	"description": "A discord.js bot",
+	"main": "index.js",
+	"scripts": {
+		"test": "nodemon --inspect ./index.js --idle "
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/martinza99/Amelie.git"
+	},
+	"keywords": [
+		"discord",
+		"bot"
+	],
+	"author": "martinza99",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/martinza99/Amelie/issues"
+	},
+	"homepage": "https://github.com/martinza99/Amelie#readme",
+	"dependencies": {
+		"discord.js": "github:discordjs/discord.js"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.2",
+		"eslint": "^6.8.0"
+	}
 }
