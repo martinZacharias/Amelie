@@ -7,16 +7,12 @@ class Avatar extends Command {
 	 * @param {Array<String>} args
 	 */
 	async run(msg, args) {
-		// if msg has mentions use thise, else author
-		const users = msg.mentions.users.size > 0 ? msg.mentions.users.values() : [msg.author];
-		const alreadyPosted = [];
+		// if msg has mentions use those and remove duplicates, else author
+		const users = msg.mentions.users.size > 0 ? new Set(msg.mentions.users.values()) : [msg.author];
 		for (const user of users) {
-			//check duplicates
-			if (alreadyPosted.includes(user)) continue;
-			alreadyPosted.push(user);
 			const content = new Discord.MessageEmbed()
 				.setAuthor(user.username, user.avatarURL({ size: 32 }))
-				.setColor("2196f3")
+				.setColor(0x2196f3)
 				.setImage(user.avatarURL({ dynamic: true, size: 1024 }));
 			msg.channel.send(content);
 		}
