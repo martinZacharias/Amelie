@@ -4,7 +4,7 @@ const WebRequest = require("../util/webRequest.js");
 
 class Hentai extends Command {
 	constructor() {
-		super({ nsfw: true });
+		super({ nsfwOnly: true });
 	}
 	/**
 	 * @param {Discord.Message} msg
