@@ -11,6 +11,7 @@ class Hentai extends Command {
 	 * @param {Array<String>} args
 	 */
 	async run(msg, args) {
+		if (args[0] == undefined) args[0] = "";
 		const sentMsg = await msg.channel.send(await this.createContent(msg, args));
 		msg.channel.stopTyping();
 		const filter = (reaction, user) => reaction.emoji.name === "🔀" && user.id === msg.author.id;
