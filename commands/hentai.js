@@ -1,10 +1,13 @@
 const Command = require("../models/command.js");
 const Discord = require("discord.js");
 const WebRequest = require("../util/webRequest.js");
+const CustomError = require("../models/customError.js");
 
 class Hentai extends Command {
 	constructor() {
 		super({ nsfwOnly: true });
+		this.results = [];
+		this.index = 0;
 	}
 	/**
 	 * @param {Discord.Message} msg
@@ -13,18 +16,28 @@ class Hentai extends Command {
 	async run(msg, args) {
 		if (args[0] == undefined) args[0] = "";
 		const sentMsg = await msg.channel.send(await this.createContent(msg, args));
-		msg.channel.stopTyping();
-		const filter = (reaction, user) => reaction.emoji.name === "🔀" && user.id === msg.author.id;
-		const botReaction = await sentMsg.react("🔀");
+		const filter = (reaction, user) => "⬅➡".includes(reaction.emoji.name) && user.id === msg.author.id;
+		const botReactionLeft = await sentMsg.react("⬅");
+		const botReactionRight = await sentMsg.react("➡");
 		let reactions;
 		do {
 			reactions = await sentMsg.awaitReactions(filter, { time: 30000, max: 1 });
 			if (reactions.size > 0) {
-				sentMsg.edit(await this.createContent(msg, args));
+				const oldIndex = this.index;
+				switch (reactions.first().emoji.name) {
+					case "⬅":
+						if (this.index > 0) this.index--;
+						break;
+					case "➡":
+						if (this.index < this.results.length - 1) this.index++;
+						break;
+				}
+				if (oldIndex != this.index) sentMsg.edit(await this.createContent(msg, args));
 				reactions.first().users.remove(msg.author);
 			}
 		} while (reactions.size > 0);
-		botReaction.remove();
+		botReactionRight.remove();
+		botReactionLeft.remove();
 	}
 
 	/**
@@ -32,52 +45,49 @@ class Hentai extends Command {
 	 * @param {Array<String>} args
 	 */
 	async createContent(msg, args) {
-		const source = "https://danbooru.donmai.us/posts.json?limit=10&random=true&tags=rating%3Aexplicit%20" + args[0];
-		try {
-			/** @type {DanbooruPost} */
-			const result = JSON.parse(await WebRequest.getBuffer(source)).find(
-				img =>
+		if (this.results.length == 0) {
+			const source = "https://danbooru.donmai.us/posts.json?limit=100&random=true&tags=rating%3Aexplicit%20" + args[0];
+
+			const response = JSON.parse(await WebRequest.getBuffer(source)).filter(
+				(img) =>
 					//if publicly available
 					img.file_url !== undefined &&
 					// if not video
-					img.tag_string_meta.split(" ").filter(tag => tag.startsWith("animated")).length != 1
+					img.tag_string_meta.split(" ").filter((tag) => tag.startsWith("animated")).length != 1
 			);
-
-			//remove anime names from characters
-			const filteredChars = (result.tag_string_character = result.tag_string_character.replace(/_\([a-z_-]*\)/g, ""));
-			//remove duplicates
-			const characters = new Set(filteredChars.split(" "));
-
-			//add chars to title
-			let title = "";
-			for (const char of characters) title += char + " ";
-			if (title == " ") title = "Unknown Character ";
-			title += `| ${result.tag_string_copyright || "Unknown Anime"}`;
-			//escape underscores to prevent markdown formatting
-			title = title.replace(/_/g, "\\_");
-
-			const content = new Discord.MessageEmbed()
-				.setAuthor(
-					result.tag_string_artist || "Unknown artist",
-					msg.author.avatarURL({ size: 32 }),
-					`https://danbooru.donmai.us/posts?tags=${result.tag_string_artist}`
-				)
-				.setColor(0xb303e6) // hentai pink
-				.setURL(`https://danbooru.donmai.us/posts/${result.id}`)
-				.setTitle(title)
-				.setImage(result.file_url)
-				.setFooter(
-					`💙${result.fav_count} 🔺${result.up_score}`,
-					"https://cdn.discordapp.com/emojis/674594025692594193.png"
-				)
-				.setTimestamp(result.created_at);
-
-			return content;
-		} catch (error) {
-			return new Discord.MessageEmbed()
-				.setDescription("an error occured while looking for hentai \n react to try again")
-				.setColor("RED");
+			this.results = response;
+			if (response.length == 0) throw new CustomError("No pics found", "try looking for somethng else");
 		}
+		/** @type {DanbooruPost} */
+		const result = this.results[this.index];
+
+		//remove anime names from characters
+		const filteredChars = (result.tag_string_character = result.tag_string_character.replace(/_\([a-z_-]*\)/g, ""));
+		//remove duplicates
+		const characters = new Set(filteredChars.split(" "));
+
+		//add chars to title
+		let title = "";
+		for (const char of characters) title += char + " ";
+		if (title == " ") title = "Unknown Character ";
+		title += `| ${result.tag_string_copyright || "Unknown Anime"}`;
+		//escape underscores to prevent markdown formatting
+		title = title.replace(/_/g, "\\_");
+
+		const content = new Discord.MessageEmbed()
+			.setAuthor(
+				result.tag_string_artist || "Unknown artist",
+				msg.author.avatarURL({ size: 32 }),
+				`https://danbooru.donmai.us/posts?tags=${result.tag_string_artist}`
+			)
+			.setColor(0xb303e6) // hentai pink
+			.setURL(`https://danbooru.donmai.us/posts/${result.id}`)
+			.setTitle(title)
+			.setImage(result.file_url)
+			.setFooter(`${this.index + 1} / ${this.results.length} 💙${result.fav_count} 🔺${result.up_score}`)
+			.setTimestamp(result.created_at);
+
+		return content;
 	}
 }
 
