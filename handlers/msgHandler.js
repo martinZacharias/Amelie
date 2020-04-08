@@ -20,18 +20,17 @@ class msgHandler {
 		//ignore bot messages
 		if (msg.author.bot) return;
 		//check if msg starts with prefix and return found prefix
-		const prefix = config.prefix.find(pre => msg.content.startsWith(pre));
+		const prefix = config.prefix.find((pre) => msg.content.startsWith(pre));
 		if (prefix === undefined) return;
 		// fetch args from msg
 		const args = msg.content
 			.substring(prefix.length) // skip prefix
 			.split(" ")
-			.filter(arg => arg); // remove empty args
+			.filter((arg) => arg); // remove empty args
 
 		let cmd = args.shift();
 		if (!this.commands.hasOwnProperty(cmd)) return;
-		cmd = this.commands[cmd];
-		msg.channel.startTyping();
+		cmd = new this.commands[cmd]();
 
 		try {
 			cmd.checkFlags(msg);
@@ -40,8 +39,6 @@ class msgHandler {
 			msg.react("❌");
 			if (!error.show) throw error;
 			await showError(msg, error);
-		} finally {
-			msg.channel.stopTyping();
 		}
 	}
 }
