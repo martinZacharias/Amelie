@@ -15,6 +15,7 @@ class Command {
 			dmAllowed: options.dmAllowed || true,
 			guildAllowed: options.guildAllowed || true,
 			nsfwOnly: options.nsfwOnly || false,
+			voiceOnly: options.voiceOnly || false,
 			permissions: options.permissions || 0,
 		};
 	}
@@ -36,6 +37,8 @@ class Command {
 			for (const perm of missing) description += "\n" + perm;
 			throw new CustomError("Insufficient Permissions", description);
 		}
+		if (this.options.voiceOnly && !msg.member.voice.channel)
+			throw new CustomError("VoiceChannel only", "You need to join a voice channel first");
 	}
 
 	sendMessage(msg, content) {
