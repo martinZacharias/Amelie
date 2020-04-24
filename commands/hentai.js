@@ -16,6 +16,7 @@ class Hentai extends Command {
 	async run(msg, args) {
 		if (args[0] == undefined) args[0] = "";
 		const sentMsg = await msg.channel.send(await this.createContent(msg, args));
+		if (msg.channel.type == "dm") return;
 		const filter = (reaction, user) => "⬅➡".includes(reaction.emoji.name) && user.id === msg.author.id;
 		const botReactionLeft = await sentMsg.react("⬅");
 		const botReactionRight = await sentMsg.react("➡");
