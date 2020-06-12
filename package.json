@@ -21,7 +21,10 @@
 	},
 	"homepage": "https://github.com/martinza99/Amelie#readme",
 	"dependencies": {
-		"discord.js": "github:discordjs/discord.js"
+		"@discordjs/opus": "^0.1.0",
+		"discord.js": "github:discordjs/discord.js",
+		"ffmpeg-static": "^4.1.1",
+		"opusscript": "0.0.7"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.2",

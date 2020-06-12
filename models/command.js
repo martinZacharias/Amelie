@@ -38,9 +38,9 @@ class Command {
 				for (const perm of missing) description += "\n" + perm;
 				throw new CustomError("Insufficient Permissions", description);
 			}
+			if (this.options.voiceOnly && !msg.member.voice.channel)
+				throw new CustomError("VoiceChannel only", "You need to join a voice channel first");
 		}
-		if (this.options.voiceOnly && !msg.member.voice.channel)
-			throw new CustomError("VoiceChannel only", "You need to join a voice channel first");
 	}
 
 	sendMessage(msg, content) {
@@ -58,5 +58,6 @@ module.exports = Command;
  * @property {Boolean} dmAllowed
  * @property {Boolean} guildAllowed
  * @property {Boolean} nsfwOnly
+ * @property {Boolean} voiceOnly
  * @property {Discord.Permissions} permissions
  */
