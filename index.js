@@ -8,9 +8,14 @@ const handler = new msgHandler(client);
 
 client.on("message", (msg) => handler.handle(msg));
 client.on("ready", () => {
-	console.log(`Ready ${new Date(client.readyTimestamp).toLocaleTimeString()}`);
+	console.log(
+		"Ready " + new Date(client.readyTimestamp).toLocaleTimeString()
+	);
 	if (process.argv.includes("--idle")) {
-		client.user.setPresence({ activity: { name: "with martin" }, status: "idle" });
+		client.user.setPresence({
+			activity: { name: "with martin" },
+			status: "idle",
+		});
 	}
 	//add @mention to prefixes
 	config.prefix.unshift(`<@!${client.user.id}>`);

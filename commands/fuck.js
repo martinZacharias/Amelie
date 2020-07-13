@@ -4,6 +4,7 @@ const CustomError = require("../models/customError.js");
 const gifs = require("../data/fuckPics");
 
 class Fuck extends Command {
+	static aliases = ["fuck"];
 	constructor() {
 		super({ nsfwOnly: true });
 	}
@@ -13,7 +14,10 @@ class Fuck extends Command {
 	 */
 	async run(msg, args) {
 		if (msg.mentions.users.size == 0)
-			throw new CustomError("Arguments Required", "You need to tell me who you want to fuck!");
+			throw new CustomError(
+				"Arguments Required",
+				"You need to tell me who you want to fuck!"
+			);
 
 		const targets = new Set(msg.mentions.users.values());
 		let targetString = "";
@@ -24,7 +28,9 @@ class Fuck extends Command {
 
 		const gif = gifs[Math.floor(Math.random() * gifs.length)];
 		const embed = new Discord.MessageEmbed()
-			.setDescription(`${msg.author} fucks ${targetString}. They're having hot sex!`)
+			.setDescription(
+				`${msg.author} fucks ${targetString}. They're having hot sex!`
+			)
 			.setAuthor(msg.author.username, msg.author.avatarURL())
 			.setImage(gif)
 			.setColor(0x00ff00)

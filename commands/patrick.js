@@ -5,6 +5,7 @@ const fs = require("fs");
 const audios = fs.readdirSync("./data/patrick/");
 
 class Patrick extends Command {
+	static aliases = ["patrick", "p"];
 	constructor() {
 		super({
 			voiceOnly: true,
@@ -17,7 +18,8 @@ class Patrick extends Command {
 	 */
 	async run(msg, args) {
 		let index = parseInt(args[0]);
-		if (isNaN(index) || index >= audios.length || index < 0) index = Math.floor(Math.random() * audios.length);
+		if (isNaN(index) || index >= audios.length || index < 0)
+			index = Math.floor(Math.random() * audios.length);
 		const connection = await msg.member.voice.channel.join();
 		const dispatcher = connection.play("./data/patrick/" + audios[index]);
 		dispatcher.on("finish", () => connection.disconnect());

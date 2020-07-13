@@ -4,6 +4,7 @@ const WebRequest = require("../util/webRequest.js");
 const CustomError = require("../models/customError.js");
 
 class Hentai extends Command {
+	static aliases = ["hentai", "h"];
 	constructor() {
 		super({ nsfwOnly: true });
 		this.results = [];
@@ -15,14 +16,20 @@ class Hentai extends Command {
 	 */
 	async run(msg, args) {
 		if (args[0] == undefined) args[0] = "";
-		const sentMsg = await msg.channel.send(await this.createContent(msg, args));
+		const sentMsg = await msg.channel.send(
+			await this.createContent(msg, args)
+		);
 		if (msg.channel.type == "dm") return;
-		const filter = (reaction, user) => "⬅➡".includes(reaction.emoji.name) && user.id === msg.author.id;
+		const filter = (reaction, user) =>
+			"⬅➡".includes(reaction.emoji.name) && user.id === msg.author.id;
 		const botReactionLeft = await sentMsg.react("⬅");
 		const botReactionRight = await sentMsg.react("➡");
 		let reactions;
 		do {
-			reactions = await sentMsg.awaitReactions(filter, { time: 30000, max: 1 });
+			reactions = await sentMsg.awaitReactions(filter, {
+				time: 30000,
+				max: 1,
+			});
 			if (reactions.size > 0) {
 				const oldIndex = this.index;
 				switch (reactions.first().emoji.name) {
@@ -33,7 +40,8 @@ class Hentai extends Command {
 						if (this.index < this.results.length - 1) this.index++;
 						break;
 				}
-				if (oldIndex != this.index) sentMsg.edit(await this.createContent(msg, args));
+				if (oldIndex != this.index)
+					sentMsg.edit(await this.createContent(msg, args));
 				reactions.first().users.remove(msg.author);
 			}
 		} while (reactions.size > 0);
@@ -47,23 +55,36 @@ class Hentai extends Command {
 	 */
 	async createContent(msg, args) {
 		if (this.results.length == 0) {
-			const source = "https://danbooru.donmai.us/posts.json?limit=100&random=true&tags=rating%3Aexplicit%20" + args[0];
+			const source =
+				"https://danbooru.donmai.us/posts.json?limit=100&random=true&tags=rating%3Aexplicit%20" +
+				args[0];
 
-			const response = JSON.parse(await WebRequest.getBuffer(source)).filter(
+			const response = JSON.parse(
+				await WebRequest.getBuffer(source)
+			).filter(
 				(img) =>
 					//if publicly available
 					img.file_url !== undefined &&
 					// if not video
-					img.tag_string_meta.split(" ").filter((tag) => tag.startsWith("animated")).length != 1
+					img.tag_string_meta
+						.split(" ")
+						.filter((tag) => tag.startsWith("animated")).length != 1
 			);
 			this.results = response;
-			if (response.length == 0) throw new CustomError("No pics found", "try looking for somethng else");
+			if (response.length == 0)
+				throw new CustomError(
+					"No pics found",
+					"try looking for somethng else"
+				);
 		}
 		/** @type {DanbooruPost} */
 		const result = this.results[this.index];
 
 		//remove anime names from characters
-		const filteredChars = (result.tag_string_character = result.tag_string_character.replace(/_\([a-z_-]*\)/g, ""));
+		const filteredChars = (result.tag_string_character = result.tag_string_character.replace(
+			/_\([a-z_-]*\)/g,
+			""
+		));
 		//remove duplicates
 		const characters = new Set(filteredChars.split(" "));
 
@@ -85,7 +106,11 @@ class Hentai extends Command {
 			.setURL(`https://danbooru.donmai.us/posts/${result.id}`)
 			.setTitle(title)
 			.setImage(result.file_url)
-			.setFooter(`${this.index + 1} / ${this.results.length} 💙${result.fav_count} 🔺${result.up_score}`)
+			.setFooter(
+				`${this.index + 1} / ${this.results.length} 💙${
+					result.fav_count
+				} 🔺${result.up_score}`
+			)
 			.setTimestamp(result.created_at);
 
 		return content;

@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const customError = require("../models/customError.js");
 
 class Delete extends Command {
+	static aliases = ["delete"];
 	constructor() {
 		super({
 			permissions: Discord.Permissions.FLAGS.MANAGE_MESSAGES,
@@ -23,8 +24,10 @@ class Delete extends Command {
 				deleted = this.amount(msg, args[0]);
 				break;
 		}
-		deleted.then(async coll => {
-			const sentMsg = await msg.channel.send(`Deleted ${coll.size} messages`);
+		deleted.then(async (coll) => {
+			const sentMsg = await msg.channel.send(
+				`Deleted ${coll.size} messages`
+			);
 			sentMsg.delete(5000);
 		});
 	}
@@ -33,7 +36,9 @@ class Delete extends Command {
 	 * @param {String} id
 	 */
 	async after(msg, id) {
-		return msg.channel.bulkDelete(await msg.channel.messages.fetch({ limit: 100, after: id }));
+		return msg.channel.bulkDelete(
+			await msg.channel.messages.fetch({ limit: 100, after: id })
+		);
 	}
 
 	/**
