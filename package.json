@@ -4,6 +4,7 @@
 	"description": "A discord.js bot",
 	"main": "index.js",
 	"scripts": {
+		"start": "node ./index.js",
 		"test": "nodemon --inspect ./index.js --idle "
 	},
 	"repository": {
