@@ -1,4 +1,4 @@
-const config = require("../data/config.js");
+const config = require("../config.js");
 const Discord = require("discord.js");
 /**
  * @class Message handler

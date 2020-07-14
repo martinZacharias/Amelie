@@ -1,7 +1,4 @@
-const fs = require("fs");
-const config = fs.existsSync("./data/config.js")
-	? require("./data/config.js")
-	: {};
+const config = require("./config.js");
 const msgHandler = require("./handlers/msgHandler.js");
 const Discord = require("discord.js");
 
@@ -24,7 +21,7 @@ client.on("ready", () => {
 	config.prefix.unshift(`<@!${client.user.id}>`);
 });
 
-client.login(process.env.token || config.token);
+client.login(process.env.token);
 
 // disconnect bot before exiting on SIGINT
 process.on("SIGINT", () => {

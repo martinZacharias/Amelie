@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const config = require("../data/config.js");
+const config = require("../config.js");
 const CustomError = require("./customError.js");
 
 /**

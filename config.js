@@ -1,9 +1,8 @@
 const Discord = require("discord.js");
 
 const config = {
-	token: "INSERT TOKEN",
-	owner: ["your discord id", "maybe even two"],
-	prefix: ["am "],
+	owners: ["182938448687005696"],
+	prefix: ["am ", "-"],
 	clientOptions: {},
 };
 
