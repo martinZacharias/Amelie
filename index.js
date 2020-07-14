@@ -1,9 +1,13 @@
 const config = require("./config.js");
 const msgHandler = require("./handlers/msgHandler.js");
 const Discord = require("discord.js");
-const http = require("https");
+const http = require("http");
 
-http.createServer().listen(process.env.PORT);
+const server = http.createServer((req, res) => {
+	res.writeHead(200);
+	res.end("Amelie Bot web page");
+});
+server.listen(process.env.PORT || 3000);
 
 // init stuff handler
 const client = new Discord.Client();
