@@ -12,9 +12,9 @@ class Pokemeow extends Command {
 	async run(msg, args) {
 		setTimeout(() => {
 			msg.channel.send(
-				msg.member.displayName + ", 14 seconds have passed"
+				msg.member.displayName + ", 6 seconds have passed"
 			);
-		}, 14000);
+		}, 6000);
 	}
 }
 
