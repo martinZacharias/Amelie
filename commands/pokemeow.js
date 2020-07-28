@@ -1,6 +1,8 @@
 const Command = require("../models/command.js");
 const Discord = require("discord.js");
 
+const delay = process.env.poketime || 10;
+
 class Pokemeow extends Command {
 	static checkMatch(msg) {
 		return msg.channel.id === "631150513152589825" && msg.content === ";p";
@@ -12,9 +14,9 @@ class Pokemeow extends Command {
 	async run(msg, args) {
 		setTimeout(() => {
 			msg.channel.send(
-				msg.member.displayName + ", 6 seconds have passed"
+				`${msg.member.displayName}, ${delay} seconds have passed`
 			);
-		}, 6000);
+		}, delay * 1000);
 	}
 }
 
