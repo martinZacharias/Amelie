@@ -5,7 +5,7 @@ const delay = process.env.poketime || 10;
 
 class Pokemeow extends Command {
 	static checkMatch(msg) {
-		return msg.channel.id === "631150513152589825" && msg.content === ";p";
+		return msg.guild.id === "550777230066712611" && msg.content === ";p";
 	}
 	/**
 	 * @param {Discord.Message} msg
