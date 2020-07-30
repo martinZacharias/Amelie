@@ -43,11 +43,6 @@ class msgHandler {
 			}
 		}
 	}
-
-	/**
-	 * turns message links into embeds
-	 * @param {Discord.Message} msg
-	 */
 }
 
 module.exports = msgHandler;

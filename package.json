@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node ./index.js",
-		"test": "nodemon -r dotenv/config ./index.js --idle "
+		"test": "nodemon --inspect -r dotenv/config ./index.js"
 	},
 	"repository": {
 		"type": "git",

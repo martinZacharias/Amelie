@@ -28,7 +28,7 @@ class Delete extends Command {
 			const sentMsg = await msg.channel.send(
 				`Deleted ${coll.size} messages`
 			);
-			sentMsg.delete(5000);
+			sentMsg.delete({ timeout: 5000 });
 		});
 	}
 	/**
