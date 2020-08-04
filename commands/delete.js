@@ -16,13 +16,10 @@ class Delete extends Command {
 	 */
 	async run(msg, args) {
 		let deleted;
-		switch (args[0]) {
-			case "after":
-				deleted = this.after(msg, args[1]);
-				break;
-			default:
-				deleted = this.amount(msg, args[0]);
-				break;
+		if (parseInt(args[0]) >= 100) {
+			deleted = this.after(msg, args[0]);
+		} else {
+			deleted = this.amount(msg, args[0]);
 		}
 		deleted.then(async (coll) => {
 			const sentMsg = await msg.channel.send(
@@ -36,9 +33,12 @@ class Delete extends Command {
 	 * @param {String} id
 	 */
 	async after(msg, id) {
-		return msg.channel.bulkDelete(
-			await msg.channel.messages.fetch({ limit: 100, after: id })
-		);
+		const targets = await msg.channel.messages.fetch({
+			limit: 99,
+			after: id,
+		});
+		targets.set(id, {});
+		return msg.channel.bulkDelete(targets, true);
 	}
 
 	/**
