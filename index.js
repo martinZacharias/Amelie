@@ -14,6 +14,20 @@ client.on("ready", () => {
 	config.prefix.unshift(`<@!${client.user.id}>`);
 });
 
+client.on("guildMemberAdd", async (member) => {
+	if (member.guild.id !== "277853975334879232") return;
+	const channel = new Discord.TextChannel(member.guild, {
+		id: "710543721585705010",
+	});
+	const msg = channel
+		.send(
+			`Hi ${member}, lese die Regeln und sei nett <:PatrickStar:695776647785218079>`
+		)
+		.then((msg) => {
+			msg.delete({ timeout: 1000 * 60 * 5 });
+		});
+});
+
 client.login(process.env.token);
 
 // disconnect bot before exiting on SIGINT
