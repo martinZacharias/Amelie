@@ -1,11 +1,12 @@
-const Command = require("../models/command.js");
 const Discord = require("discord.js");
+const Command = require("../../models/command");
 
-const delay = process.env.poketime || 10;
+const delay = process.env.poketime;
 
 class Pokemeow extends Command {
 	static active = false;
 	static checkMatch(msg) {
+		// TODO: guild has pokemeow 664508672713424926
 		if (this.active) return null;
 		return msg.guild.id === "550777230066712611" && msg.content === ";p";
 	}

@@ -1,5 +1,5 @@
-const Command = require("../models/command.js");
 const Discord = require("discord.js");
+const Command = require("../../models/command");
 
 class Useless extends Command {
 	static aliases = ["rem"];

@@ -1,5 +1,5 @@
-const Command = require("../models/command.js");
 const Discord = require("discord.js");
+const Command = require("../../models/command");
 
 const messageLinkPattern = /^https?:\/\/discord(app)?\.com\/channels\/(\d{17,19})\/(\d{17,19})\/(\d{17,19})$/i;
 

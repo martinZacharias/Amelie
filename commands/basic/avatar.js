@@ -1,5 +1,5 @@
-const Command = require("../models/command.js");
 const Discord = require("discord.js");
+const Command = require("../../models/command");
 
 class Avatar extends Command {
 	static aliases = ["avatar", "pfp"];

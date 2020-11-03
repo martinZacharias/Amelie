@@ -1,7 +1,7 @@
-const Command = require("../models/command.js");
 const Discord = require("discord.js");
-const WebRequest = require("../util/webRequest.js");
-const CustomError = require("../models/customError.js");
+const Command = require("../../models/command");
+const WebRequest = require("../../util/webRequest");
+const CustomError = require("../../models/customError");
 
 class Hentai extends Command {
 	static aliases = ["hentai", "h"];

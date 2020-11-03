@@ -1,6 +1,5 @@
-const Command = require("../models/command.js");
 const Discord = require("discord.js");
-const customError = require("../models/customError.js");
+const Command = require("../../models/command");
 
 class Delete extends Command {
 	static aliases = ["delete"];
