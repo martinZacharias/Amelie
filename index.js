@@ -3,7 +3,9 @@ const msgHandler = require("./handlers/msgHandler.js");
 const Discord = require("discord.js");
 
 // init stuff handler
-const client = new Discord.Client();
+const client = new Discord.Client({
+	ws: { intents: Discord.Intents.NON_PRIVILEGED },
+});
 const handler = new msgHandler(client);
 
 client.on("message", (msg) => handler.handle(msg));
