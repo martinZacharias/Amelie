@@ -4,7 +4,14 @@ const Discord = require("discord.js");
 
 // init stuff handler
 const client = new Discord.Client({
-	ws: { intents: Discord.Intents.NON_PRIVILEGED },
+	ws: {
+		intents: [
+			"GUILD_MESSAGES",
+			"GUILD_MESSAGE_REACTIONS",
+			"GUILD_MESSAGE_TYPING",
+			"DIRECT_MESSAGES",
+		],
+	},
 });
 const handler = new msgHandler(client);
 
