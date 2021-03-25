@@ -18,7 +18,8 @@ class Command {
 			guildAllowed: options.guildAllowed || true,
 			nsfwOnly: options.nsfwOnly || false,
 			voiceOnly: options.voiceOnly || false,
-			permissions: options.permissions || Discord.Permissions.DEFAULT,
+			permissions:
+				options.permissions || Discord.Permissions.FLAGS.VIEW_CHANNEL,
 		};
 	}
 
