@@ -4,24 +4,14 @@ const Discord = require("discord.js");
 
 // init stuff handler
 
-const myIntents = new Discord.Intents();
-myIntents.add(
-	"GUILD_MESSAGES",
-	"GUILD_MESSAGE_REACTIONS",
-	"GUILD_MESSAGE_TYPING",
-	"DIRECT_MESSAGES"
-);
-
-const client = new Discord.Client({ intents: myIntents });
+const client = new Discord.Client({ intents: Discord.Intents.NON_PRIVILEGED });
 
 const handler = new msgHandler(client);
 
 client.on("message", (msg) => handler.handle(msg));
 client.on("ready", () => {
-	console.log(
-		"Ready " + new Date(client.readyTimestamp).toLocaleTimeString()
-	);
-	config.prefix.unshift(`<@!${client.user.id}>`);
+	const time = new Date(client.readyTimestamp).toLocaleTimeString();
+	console.log(`${client.user.tag} at ${time}`);
 });
 
 client.on("guildMemberAdd", async (member) => {
