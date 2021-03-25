@@ -26,9 +26,6 @@ class msgHandler {
 		if (foundCommand) {
 			const cmd = new foundCommand();
 			try {
-				console.log(
-					`${msg.channel.name}@${msg.author.username}: ${msg}`
-				);
 				cmd.checkFlags(msg);
 				//split args
 				const args = msg.content

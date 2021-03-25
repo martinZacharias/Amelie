@@ -3,16 +3,17 @@ const msgHandler = require("./handlers/msgHandler.js");
 const Discord = require("discord.js");
 
 // init stuff handler
-const client = new Discord.Client({
-	ws: {
-		intents: [
-			"GUILD_MESSAGES",
-			"GUILD_MESSAGE_REACTIONS",
-			"GUILD_MESSAGE_TYPING",
-			"DIRECT_MESSAGES",
-		],
-	},
-});
+
+const myIntents = new Discord.Intents();
+myIntents.add(
+	"GUILD_MESSAGES",
+	"GUILD_MESSAGE_REACTIONS",
+	"GUILD_MESSAGE_TYPING",
+	"DIRECT_MESSAGES"
+);
+
+const client = new Discord.Client({ intents: myIntents });
+
 const handler = new msgHandler(client);
 
 client.on("message", (msg) => handler.handle(msg));

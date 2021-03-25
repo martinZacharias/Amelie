@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node ./index.js",
-		"test": "nodemon --inspect -r dotenv/config ./index.js"
+		"test": "nodemon -r dotenv/config ./index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -22,11 +22,12 @@
 	},
 	"homepage": "https://github.com/martinza99/Amelie#readme",
 	"dependencies": {
-		"discord.js": "github:discordjs/discord.js"
+		"discord.js": "github:discordjs/discord.js",
+		"opusscript": "0.0.7"
 	},
 	"devDependencies": {
 		"eslint": "^6.8.0",
-		"node-env-run": "^3.0.2",
+		"node-env-run": "^4.0.2",
 		"nodemon": "^2.0.2"
 	}
 }
