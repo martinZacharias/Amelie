@@ -15,14 +15,16 @@ class Delete extends Command {
 	 */
 	async run(msg, args) {
 		let deleted;
-		if (parseInt(args[0]) >= 100) {
-			deleted = this.after(msg, args[0]);
+		const count = parseInt(args[0]);
+		if (count < 1) return;
+		if (count >= 100) {
+			deleted = this.after(msg, count);
 		} else {
-			deleted = this.amount(msg, args[0]);
+			deleted = this.amount(msg, count);
 		}
 		deleted.then(async (coll) => {
 			const sentMsg = await msg.channel.send(
-				`Deleted ${coll.size} messages`
+				`Deleted ${coll.size - 1} messages`
 			);
 			sentMsg.delete({ timeout: 5000 });
 		});
@@ -37,7 +39,10 @@ class Delete extends Command {
 			after: id,
 		});
 		targets.set(id, {});
-		return msg.channel.bulkDelete(targets, true);
+
+		const filtered = targets.filter((t) => t.deletable);
+
+		return msg.channel.bulkDelete(filtered);
 	}
 
 	/**
