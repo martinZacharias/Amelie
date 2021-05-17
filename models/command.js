@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const config = require("../config.js");
 const CustomError = require("./customError.js");
 
 /**
@@ -28,7 +27,8 @@ class Command {
 	 * @param {Discord.Message} msg
 	 */
 	static checkMatch(msg) {
-		let prefix = config.prefix.find((pre) => msg.content.startsWith(pre));
+		const prefixes = process.env.prefix.split(",");
+		const prefix = prefixes.find((pre) => msg.content.startsWith(pre));
 		if (prefix) {
 			const name = msg.content.slice(prefix.length).split(" ")[0];
 			return this.aliases.includes(name);
@@ -39,7 +39,7 @@ class Command {
 	 * @param {Discord.Message} msg
 	 */
 	checkFlags(msg) {
-		if (this.options.ownerOnly && !config.owners.includes(msg.author.id))
+		if (this.options.ownerOnly && !process.env.owner === msg.author.id)
 			throw new CustomError(
 				"Owner Only",
 				"This command can only be used by the owner"

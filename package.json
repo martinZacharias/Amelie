@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node ./index.js",
-		"test": "node -r dotenv/config ./index.js"
+		"test": "nodemon -r dotenv/config ./index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -22,7 +22,7 @@
 	},
 	"homepage": "https://github.com/martinza99/Amelie#readme",
 	"dependencies": {
-		"discord.js": "github:discordjs/discord.js",
+		"discord.js": "^12.5.3",
 		"opusscript": "0.0.7"
 	},
 	"devDependencies": {

@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const commands = [];
-const modules = process.env.modules.split(", ");
+const modules = process.env.modules.split(",");
 
 for (const module of modules) {
 	const modulePath = path.join(__dirname, "..", "commands", module);
