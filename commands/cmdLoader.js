@@ -5,7 +5,7 @@ const commands = [];
 const modules = process.env.modules.split(",");
 
 for (const module of modules) {
-	const modulePath = path.join(__dirname, "..", "commands", module);
+	const modulePath = path.join(__dirname, module);
 	const files = fs.readdirSync(modulePath).filter((dirent) => {
 		return path.extname(dirent) === ".js";
 	});
