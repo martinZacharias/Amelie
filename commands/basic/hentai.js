@@ -16,9 +16,7 @@ class Hentai extends Command {
 	 */
 	async run(msg, args) {
 		if (args[0] == undefined) args[0] = "";
-		const sentMsg = await msg.channel.send(
-			await this.createContent(msg, args)
-		);
+		const sentMsg = await msg.reply(await this.createContent(msg, args));
 		if (msg.channel.type == "dm") return;
 		const filter = (reaction, user) =>
 			"⬅➡".includes(reaction.emoji.name) && user.id === msg.author.id;
@@ -81,10 +79,8 @@ class Hentai extends Command {
 		const result = this.results[this.index];
 
 		//remove anime names from characters
-		const filteredChars = (result.tag_string_character = result.tag_string_character.replace(
-			/_\([a-z_-]*\)/g,
-			""
-		));
+		const filteredChars = (result.tag_string_character =
+			result.tag_string_character.replace(/_\([a-z_-]*\)/g, ""));
 		//remove duplicates
 		const characters = new Set(filteredChars.split(" "));
 

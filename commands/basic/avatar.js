@@ -19,7 +19,8 @@ class Avatar extends Command {
 				.setAuthor(user.username, user.avatarURL({ size: 32 }))
 				.setColor(0x2196f3)
 				.setImage(user.avatarURL({ dynamic: true, size: 1024 }));
-			msg.channel.send(content);
+			if (users.size === 1) msg.reply(content);
+			else msg.channel.send(content);
 		}
 	}
 }
